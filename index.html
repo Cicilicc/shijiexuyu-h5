@@ -1,0 +1,112 @@
+
+<!DOCTYPE html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>时节絮语·赛事增强版</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box} html{scroll-behavior:smooth}
+body{font-family:"Microsoft YaHei";background:#0b0b0b;color:#fff}
+.page{position:relative;min-height:100vh;overflow:hidden}
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;
+background:linear-gradient(135deg,#f6d3df,#d9efd8,#f5e1a3,#dce6ff);color:#222}
+.cover h1{font-size:3rem;text-align:center;max-width:900px}
+.btn{padding:14px 30px;background:#222;color:#fff;border-radius:30px;text-decoration:none;margin-top:20px}
+.scene img{width:100%;display:block}
+.title{position:absolute;left:20px;top:20px;background:rgba(0,0,0,.55);padding:12px 18px;border-radius:12px}
+.hot{position:absolute;width:72px;height:72px;border-radius:50%;border:2px solid #fff;
+background:rgba(255,255,255,.25);animation:pulse 2s infinite;cursor:pointer}
+@keyframes pulse{50%{transform:scale(1.15)}}
+.popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99;justify-content:center;align-items:center}
+.card{background:#fff;color:#222;padding:24px;border-radius:18px;max-width:560px;width:90%}
+.seals{display:flex;flex-direction:column;justify-content:center;align-items:center;background:#121212}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;width:80%;max-width:700px}
+.seal{padding:25px;border:2px solid #555;border-radius:16px;text-align:center;opacity:.35}
+.done{opacity:1;border-color:gold;color:gold}
+.final{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+background:radial-gradient(circle,#223,#000)}
+.particle{position:fixed;border-radius:50%;background:white;opacity:.5;animation:fall linear infinite}
+@keyframes fall{from{transform:translateY(-100px)}to{transform:translateY(110vh)}}
+.badge{position:fixed;right:10px;bottom:10px;background:#000a;padding:10px 16px;border-radius:20px;z-index:100}
+</style></head><body>
+
+<div class="badge">四神印章：<span id="count">0</span>/4</div>
+
+<section class="page cover">
+<h1>时节絮语：字里山河·四时中国</h1>
+<p>节气 × 汉字 × AIGC沉浸体验</p>
+<a class="btn" href="#spring">开启旅程</a>
+</section>
+
+<section class="page scene" id="spring">
+<img src="春分.png"><div class="title"><h2>春分</h2></div>
+<div class="hot" style="left:25%;top:72%" onclick="gain('dragon','青龙印','春分·竖蛋')"></div>
+<div class="hot" style="left:75%;top:50%" onclick="info('春分·纸鸢','写下愿望，随风而起。')"></div>
+</section>
+
+<section class="page scene" id="summer">
+<img src="夏至.png"><div class="title"><h2>夏至</h2></div>
+<div class="hot" style="left:65%;top:30%" onclick="gain('phoenix','朱雀印','夏至·荷香')"></div>
+</section>
+
+<section class="page scene" id="autumn">
+<img src="秋分.png"><div class="title"><h2>秋分</h2></div>
+<div class="hot" style="left:35%;top:55%" onclick="gain('tiger','白虎印','秋分·丰收')"></div>
+</section>
+
+<section class="page scene" id="winter">
+<img src="大寒.png"><div class="title"><h2>大寒</h2></div>
+<div class="hot" style="left:25%;top:72%" onclick="gain('turtle','玄武印','大寒·煮茶')"></div>
+</section>
+
+<section class="page seals" id="sealhall">
+<h1>四神印章殿</h1><br>
+<div class="grid">
+<div id="dragon" class="seal">🐉<br>青龙</div>
+<div id="phoenix" class="seal">🔥<br>朱雀</div>
+<div id="tiger" class="seal">🐅<br>白虎</div>
+<div id="turtle" class="seal">🐢<br>玄武</div>
+</div><br>
+<button onclick="unlock()">开启终章</button>
+</section>
+
+<section class="page final" id="final">
+<h1>四时轮回</h1>
+<h2>青龙司春 · 朱雀主夏 · 白虎掌秋 · 玄武镇冬</h2>
+<br>
+<p>节气记录自然的呼吸</p>
+<p>汉字保存文明的记忆</p>
+<br>
+<p>用绘画译象形 · 用设计译韵律 · 用数字媒介译千年光阴</p>
+</section>
+
+<div class="popup" id="pop"><div class="card">
+<h2 id="pt"></h2><p id="pc"></p><br>
+<button onclick="hide()">关闭</button>
+</div></div>
+
+<script>
+let seals={dragon:false,phoenix:false,tiger:false,turtle:false};
+function gain(id,name,title){
+seals[id]=true;
+document.getElementById(id).classList.add('done');
+document.getElementById('count').innerText=Object.values(seals).filter(v=>v).length;
+info(title,'恭喜获得 '+name+'！');
+}
+function info(t,c){
+pt.innerText=t; pc.innerText=c; pop.style.display='flex';
+}
+function hide(){pop.style.display='none';}
+function unlock(){
+if(Object.values(seals).every(v=>v)){location.href='#final';}
+else alert('请先集齐四枚印章');
+}
+for(let i=0;i<40;i++){
+let p=document.createElement('div');
+p.className='particle';
+let s=Math.random()*5+2;
+p.style.width=s+'px';p.style.height=s+'px';
+p.style.left=Math.random()*100+'vw';
+p.style.animationDuration=(5+Math.random()*10)+'s';
+document.body.appendChild(p);
+}
+</script>
+</body></html>
